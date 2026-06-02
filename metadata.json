@@ -1,0 +1,6 @@
+{
+  "name": "Janta Vastralay",
+  "description": "A premium traditional Indian clothing showroom website featuring exquisite sarees and readymade apparel with a royal aesthetic.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

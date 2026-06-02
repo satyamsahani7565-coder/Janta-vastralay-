@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700;800&family=Yatra+One&family=Marcellus&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Marcellus", "Cinzel", "Playfair Display", serif;
+  --font-display: "Yatra One", sans-serif;
+  
+  --color-gold: #c5a043;
+  --color-gold-light: #f4e5ba;
+  --color-gold-dark: #9a782e;
+  --color-maroon: #751414;
+  --color-maroon-dark: #460909;
+  --color-maroon-light: #a32c2c;
+  --color-cream: #fbf9f4;
+  --color-charcoal: #1c1515;
+}
+
+@utility text-gold-gradient {
+  background: linear-gradient(135deg, #f4e5ba 0%, #c5a043 50%, #9a782e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@utility bg-mandala-pattern {
+  background-image: radial-gradient(rgba(197, 160, 67, 0.12) 1.5px, transparent 1.5px), radial-gradient(rgba(197, 160, 67, 0.12) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+}
+
+@utility bg-maroon-mandala {
+  background-image: radial-gradient(rgba(244, 229, 186, 0.08) 1.5px, transparent 1.5px), radial-gradient(rgba(244, 229, 186, 0.08) 1.5px, transparent 1.5px);
+  background-size: 28px 28px;
+  background-position: 0 0, 14px 14px;
+}
+
