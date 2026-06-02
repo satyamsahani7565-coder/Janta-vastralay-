@@ -15,12 +15,16 @@ export default function App() {
   const [overlayCompleted, setOverlayCompleted] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [showAdmin, setShowAdmin] = useState(false);
+  const [activeTab, setActiveTab] = useState<'all' | 'shirting' | 'saree' | 'suit' | 'lehenga' | 'naqab'>('all');
 
   // Dynamic compatibility mappings
   const STORE_INFO = storeInfo;
-  const SAREES = products.filter(p => p.category === 'saree');
-  const READYMADES = products.filter(p => p.category === 'readymade');
   const TESTIMONIALS = testimonials;
+
+  const filteredProducts = products.filter(p => {
+    if (activeTab === 'all') return true;
+    return p.category === activeTab;
+  });
 
   // Set page title
   useEffect(() => {
@@ -47,34 +51,69 @@ export default function App() {
         {/* main content grids */}
         <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-12 space-y-20 bg-mandala-pattern">
           
-          {/* Section: Saree grid cards */}
+          {/* Section: Showroom Premium collections with state filters */}
           <section id="saree-section" className="space-y-8 scroll-mt-24">
-            <div className="text-center space-y-2 max-w-2xl mx-auto">
-              <span className="text-xs uppercase tracking-[0.2em] font-serif font-bold text-gold-dark block">
-                ✧ Pure Katan, Tussar & Silk Collection ✧
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-serif text-neutral-950 font-bold tracking-wide">
-                Traditional Handloom Sarees
-              </h2>
-              <div className="flex justify-center items-center gap-1.5 py-1">
-                <span className="h-[1px] w-12 bg-gold-dark" />
-                <span className="text-gold text-xs">❖</span>
-                <span className="h-[1px] w-12 bg-gold-dark" />
+            <div id="readymade-section" className="scroll-mt-24 space-y-8">
+              <div className="text-center space-y-2 max-w-2xl mx-auto">
+                <span className="text-xs uppercase tracking-[0.2em] font-serif font-bold text-gold-dark block">
+                  ✧ राजशाही फैशन एवं वस्त्रालय (Premium Showroom) ✧
+                </span>
+                <h2 className="text-3xl sm:text-4xl font-serif text-neutral-950 font-bold tracking-wide">
+                  Exclusive Showroom Catalog
+                </h2>
+                <div className="flex justify-center items-center gap-1.5 py-1">
+                  <span className="h-[1px] w-12 bg-gold-dark" />
+                  <span className="text-gold text-xs">❖</span>
+                  <span className="h-[1px] w-12 bg-gold-dark" />
+                </div>
+                <p className="text-xs sm:text-sm text-neutral-600 font-sans font-light">
+                  हमारे यहाँ उत्कृष्ट कोटि के थान, शर्टिंग-शूटिंग, आकर्षक साड़ियां, डिज़ाइनर सलवार सूट, हेरिटेज लहंगे और काँच एवं कढ़ाई वर्क वाले बारीक नकाब थोक एवं फुटकर दाम पर उपलब्ध हैं।
+                </p>
               </div>
-              <p className="text-xs sm:text-sm text-neutral-600 font-sans font-light">
-                Exquisite heritage sarees woven with pure silk, royal patterns, and luxurious zari borders, sourced directly from master handicraft centers.
-              </p>
-            </div>
 
-            {/* 3 Premium Saree Cards in Responsive Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-              {SAREES.map((saree) => (
-                <ProductCard 
-                  key={saree.id} 
-                  product={saree} 
-                  onQuickView={(p) => setSelectedProduct(p)} 
-                />
-              ))}
+              {/* Responsive Elegant Filter Tabs */}
+              <div className="flex flex-wrap justify-center items-center gap-2 max-w-4xl mx-auto py-2 px-1 select-none">
+                {[
+                  { id: 'all', hindi: 'सभी कपड़े', english: 'All Items' },
+                  { id: 'shirting', hindi: 'शर्टिंग', english: 'Shirting & Suiting' },
+                  { id: 'saree', hindi: 'साड़ी', english: 'Premium Saree' },
+                  { id: 'suit', hindi: 'सूट', english: 'Designer Suit' },
+                  { id: 'lehenga', hindi: 'लहंगा', english: 'Bridal Lehenga' },
+                  { id: 'naqab', hindi: 'नकाब', english: 'Royal Naqab' },
+                ].map(tab => (
+                  <button
+                    key={tab.id}
+                    id={`tab-btn-${tab.id}`}
+                    onClick={() => setActiveTab(tab.id as any)}
+                    className={`px-4 py-2.5 rounded-xl border font-sans text-xs sm:text-sm transition-all duration-300 flex flex-col items-center justify-center min-w-[95px] sm:min-w-[130px] cursor-pointer shadow-sm
+                      ${activeTab === tab.id 
+                        ? 'bg-gradient-to-r from-maroon to-maroon-dark border-gold text-white shadow-md scale-102 ring-1 ring-gold/20' 
+                        : 'bg-white border-neutral-200 text-neutral-700 hover:border-gold hover:bg-white/80'
+                      }`}
+                  >
+                    <span className="font-bold tracking-wide text-[13px] sm:text-[14px]">{tab.hindi}</span>
+                    <span className={`text-[9px] sm:text-[10px] tracking-wider uppercase mt-0.5 ${activeTab === tab.id ? 'text-gold-light' : 'text-neutral-400'}`}>{tab.english}</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Premium Interactive Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 pt-4">
+                {filteredProducts.map((product) => (
+                  <ProductCard 
+                    key={product.id} 
+                    product={product} 
+                    onQuickView={(p) => setSelectedProduct(p)} 
+                  />
+                ))}
+              </div>
+
+              {filteredProducts.length === 0 && (
+                <div className="text-center py-16 bg-white/40 rounded-2xl border border-neutral-200 border-dashed">
+                  <Sparkles className="w-8 h-8 text-gold/60 mx-auto animate-bounce mb-3" />
+                  <p className="text-sm text-neutral-500 font-sans">इस श्रेणी में वर्तमान में कोई कपड़ा उपलब्ध नहीं है। कृपया व्यवस्थापक पैनल से जोड़ें।</p>
+                </div>
+              )}
             </div>
           </section>
 
@@ -87,7 +126,7 @@ export default function App() {
                 <p className="text-gold uppercase tracking-[0.25em] font-serif text-xs">Exclusive Wedding Packages</p>
                 <h3 className="text-2xl font-serif text-gold-light font-bold">Complete Festive & Bridal Wedding Trousseau</h3>
                 <p className="text-xs text-amber-100 max-w-xl font-light">
-                  Enjoy custom matching options, heavy silk sherwanis, and luxury bridal discounts at our family boutique. Book your personal fitting session now.
+                  Enjoy custom matching options, premium designer suits, and luxury bridal discounts at our family showroom. Book your personal fitting session now.
                 </p>
               </div>
               <a 
@@ -100,38 +139,6 @@ export default function App() {
               </a>
             </div>
           </div>
-
-
-          {/* Section: Readymade garments */}
-          <section id="readymade-section" className="space-y-8 scroll-mt-24">
-            <div className="text-center space-y-2 max-w-2xl mx-auto">
-              <span className="text-xs uppercase tracking-[0.2em] font-serif font-bold text-gold-dark block">
-                ✧ Divine Bridal Lehengas & Sherwanis ✧
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-serif text-neutral-950 font-bold tracking-wide">
-                Festive & Bridal Readymade Wear
-              </h2>
-              <div className="flex justify-center items-center gap-1.5 py-1">
-                <span className="h-[1px] w-12 bg-gold-dark" />
-                <span className="text-gold text-xs">❖</span>
-                <span className="h-[1px] w-12 bg-gold-dark" />
-              </div>
-              <p className="text-xs sm:text-sm text-neutral-600 font-sans font-light">
-                Impeccably tailored kurtas, custom-fit groom sherwanis, and gorgeous wedding lehengas ensuring ultimate comfort and luxury.
-              </p>
-            </div>
-
-            {/* 3 Stylish Readymade Grid Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-              {READYMADES.map((apparel) => (
-                <ProductCard 
-                  key={apparel.id} 
-                  product={apparel} 
-                  onQuickView={(p) => setSelectedProduct(p)} 
-                />
-              ))}
-            </div>
-          </section>
 
 
           {/* Section: Showroom Testimonials & Reviews */}

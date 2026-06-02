@@ -30,19 +30,14 @@ export default function ProductModal({ product, onClose }: ProductModalProps) {
     const message = `Hello ${STORE_INFO.name}! I am genuinely interested in this wedding design:
 👗 Category: ${product.category === 'saree' ? 'Traditional Silk Saree' : 'Designer Wear'}
 📦 Name: ${product.name}
-💰 Special Price: ${product.price}
 
 Please let me know if this is currently available in stock or if we can book a customized style fitting. Thank you!`;
     return `https://wa.me/${STORE_INFO.whatsappNumber}?text=${encodeURIComponent(message)}`;
   };
 
-  // Determine saving amount
+  // Determine saving amount (Disabled - price removed)
   const getSavings = () => {
-    if (!product.originalPrice) return null;
-    const numPrice = parseInt(product.price.replace(/[^\d]/g, ''));
-    const numOrig = parseInt(product.originalPrice.replace(/[^\d]/g, ''));
-    if (isNaN(numPrice) || isNaN(numOrig) || numOrig <= numPrice) return null;
-    return numOrig - numPrice;
+    return null;
   };
 
   const savings = getSavings();
@@ -95,24 +90,12 @@ Please let me know if this is currently available in stock or if we can book a c
               {product.name}
             </p>
 
-            {/* Price Line with Savings calculations */}
-            <div className="bg-white p-3.5 rounded-xl border border-gold/15 flex items-center justify-between">
-              <div>
-                <p className="text-[10px] uppercase font-serif tracking-widest text-neutral-400">Showroom Festival Price</p>
-                <div className="flex items-baseline gap-2.5 mt-0.5">
-                  <span className="text-2xl font-bold text-maroon font-sans">{product.price}</span>
-                  {product.originalPrice && (
-                    <span className="text-sm text-neutral-400 line-through font-sans">{product.originalPrice}</span>
-                  )}
-                </div>
-              </div>
-              
-              {savings && (
-                <div className="bg-green-50 text-green-700 px-3 py-1 rounded-lg border border-green-200 text-xs text-right">
-                  <p className="font-semibold">Savings: ₹{savings.toLocaleString()}</p>
-                  <p className="text-[9px] text-green-600">Special Festive Discount</p>
-                </div>
-              )}
+            {/* Showroom Exclusive Note */}
+            <div className="bg-white p-3.5 rounded-xl border border-gold/15">
+              <p className="text-[10px] uppercase font-serif tracking-widest text-gold-dark font-bold">Boutique Exclusive Collection</p>
+              <p className="text-xs text-neutral-600 font-sans mt-1">
+                Please inquire on WhatsApp or give us a call regarding available sizes, customizable designs, and exclusive showroom fitting appointments.
+              </p>
             </div>
 
             {/* Description Paragraph */}
@@ -136,7 +119,7 @@ Please let me know if this is currently available in stock or if we can book a c
             {/* Luxury Care Guide Message */}
             <div className="bg-neutral-50 p-3 rounded-xl border border-neutral-200/50 text-xs text-neutral-600 space-y-1 font-sans">
               <p className="font-semibold text-neutral-800">Garment Care Guide:</p>
-              <p>• {product.category === 'saree' ? 'Dry clean only. Pack in moist-free cotton muslin cloth to protect pure silver-zari weave.' : 'Do not dry in direct sunlight. Keep heavy bridalwear or sherwanis covered in muslin wraps after use.'}</p>
+              <p>• {product.category === 'saree' ? 'Dry clean only. Pack in moist-free cotton muslin cloth to protect pure silver-zari weave.' : 'Do not dry in direct sunlight. Keep heavy bridalwear or designer suits covered in muslin wraps after use.'}</p>
             </div>
           </div>
 

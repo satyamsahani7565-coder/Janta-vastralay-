@@ -58,27 +58,63 @@ export const SAREES: Product[] = [
 export const READYMADES: Product[] = [
   {
     id: "ready-01",
-    name: "Royal Ivory Wedding Sherwani",
-    hindiName: "Royal Ivory Wedding Sherwani",
-    category: 'readymade',
-    price: "₹24,999",
-    originalPrice: "₹35,000",
-    description: "A premium hand-embroidered groom Sherwani with detailed gold tilla work, coordinating luxury stole, and comfortable churidar.",
-    image: "/src/assets/images/designer_sherwani_1780314432510.png",
+    name: "Royal Emerald Georgette Sharara Suit Set",
+    hindiName: "Royal Emerald Georgette Sharara Suit",
+    category: 'suit',
+    price: "₹6,499",
+    originalPrice: "₹9,500",
+    description: "An exquisite designer ladies sharara suit featuring heavy premium georgette, intricate gold zari embroidery and sparkling sequins with a royal drape dupatta.",
+    image: "/src/assets/images/designer_sharara_suit_1780384969586.png",
     tag: "Festive Special",
-    features: ["Premium Art Silk Fabric", "Intricate Hand Embroidery", "Includes Stole & Inner Kurta"]
+    features: ["Heavy Georgette Fabric", "Intricate Hand Zari Wear", "Includes Flared Sharara Pants"]
   },
   {
     id: "ready-02",
     name: "Maroon Golden Bridal Lehenga Choli",
     hindiName: "Maroon Velvet Bridal Lehenga",
-    category: 'readymade',
+    category: 'lehenga',
     price: "₹29,999",
     originalPrice: "₹45,000",
     description: "Heavy premium velvet bridal lehenga set with intricate gold tilla and sparkling sequin embroidery representing timeless beauty.",
     image: "/src/assets/images/designer_lehenga_1780314451960.png",
     tag: "Trending Couture",
     features: ["Heavy Micro Velvet Fabric", "Double Flare (Ghera)", "Designer Dupatta & Silk Blouse"]
+  },
+  {
+    id: "ready-04",
+    name: "Royal Pink & Gold Silk Bridal Lehenga",
+    hindiName: "Royal Pink Designer Lehenga",
+    category: 'lehenga',
+    price: "₹34,999",
+    originalPrice: "₹49,500",
+    description: "An incredibly detailed raw silk masterpiece featuring majestic pink fabrics embellished with golden tilla embroidery, sequin floral motifs and a luxury sheer georgette dupatta.",
+    image: "/src/assets/images/royal_pink_lehenga_1780385150442.png",
+    tag: "Royal Masterpiece",
+    features: ["Pure Premium Raw Silk", "Intricate Dual Tilla & Zardoshi Handwork", "Coordinated Blouse Piece & Dual Dupattas"]
+  },
+  {
+    id: "ready-05",
+    name: "Premium Raymond Suiting & Shirting Gift Pack",
+    hindiName: "Premium Suiting-Shirting Combo Fabric Package (शर्टिंग)",
+    category: 'shirting',
+    price: "₹1,899",
+    originalPrice: "₹3,000",
+    description: "An elegant combination of classic structured navy blue suiting and high-quality premium white textured shirting fabric by Raymond, perfect for personalized tailoring and celebratory gifts.",
+    image: "/src/assets/images/shirting_suiting_box_1780385678015.png",
+    tag: "Gifting Special",
+    features: ["Raymond Brand Premium Fabric", "Navy Blue Trouser + Ice White Shirt Set", "Luxurious Hardbound Embossed Gift Box"]
+  },
+  {
+    id: "ready-06",
+    name: "Royal Dubai Embroidered Georgette Naqab Set",
+    hindiName: "Royal Dubai Georgette Naqab (नकाब)",
+    category: 'naqab',
+    price: "₹2,499",
+    originalPrice: "₹4,000",
+    description: "An elegant imported premium double-layer georgette Niqab/Naqab set from Dubai. Crafted in deep matte black, embellished with delicate gold and glass hand-beaded detailing.",
+    image: "/src/assets/images/royal_black_niqab_1780385693254.png",
+    tag: "Imported Selection",
+    features: ["Premium Double-layer Dubai Georgette", "Soft Breathable Chiffon Base Overlay", "Hand-stitched Glass Bead Finishes"]
   },
   {
     id: "ready-03",
@@ -103,7 +139,7 @@ export const TESTIMONIALS = [
   {
     name: "Rajesh Kumar Singh",
     location: "Muzaffarpur",
-    review: "The outstanding collection of sherwanis and sarees here is truly remarkable. The fitting, tailoring, and fabric quality represent pure luxury. Excellent showroom consultation and top-tier service."
+    review: "The outstanding collection of exclusive suits and sarees here is truly remarkable. The fitting, tailoring, and fabric quality represent pure luxury. Excellent showroom consultation and top-tier service."
   },
   {
     name: "Neha Kumari",

@@ -37,11 +37,11 @@ export default function HeroBanner() {
 
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-display text-white leading-[1.15] tracking-wide">
             Home of Exquisite Sarees & <br />
-            <span className="text-gold-gradient font-semibold">Royal Sherwanis</span>
+            <span className="text-gold-gradient font-semibold">Designer Suits</span>
           </h1>
 
           <p className="text-neutral-300 font-sans text-sm sm:text-base max-w-xl mx-auto lg:mx-0 leading-relaxed font-light">
-            Welcome to {STORE_INFO.name}. We present the finest Banarasi silk sarees, heritage Kanjivaram creations, hand-crafted Lehengas, and royal wedding Sherwanis for your special life events.
+            Welcome to {STORE_INFO.name}. We present the finest Banarasi silk sarees, heritage Kanjivaram creations, hand-crafted Lehengas, and royal designer Suits & Dresses for your special life events.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
@@ -56,7 +56,7 @@ export default function HeroBanner() {
               onClick={() => handleScrollToSection('readymade-section')}
               className="w-full sm:w-auto bg-neutral-950/80 hover:bg-neutral-900 border border-gold/45 hover:border-gold text-gold hover:text-gold-light font-sans font-medium text-sm px-6 py-3.5 rounded-lg flex items-center justify-center gap-2 cursor-pointer transition-all duration-300"
             >
-              <span>Ready Bridal & Groom Wear</span>
+              <span>Ready Bridal & Designer Wear</span>
               <ArrowDown className="w-4 h-4" />
             </button>
           </div>
@@ -84,8 +84,8 @@ export default function HeroBanner() {
                 <div className="flex items-start gap-3">
                   <div className="mt-1 font-serif text-gold font-bold text-sm">02</div>
                   <div>
-                    <h4 className="text-amber-100 font-serif text-sm font-semibold">Exclusive Bridal & Groom Couture</h4>
-                    <p className="text-neutral-300 text-xs mt-0.5">A magnificent assortment of bridal Lehengas, groom Sherwanis, and luxury suits for your premium celebrations.</p>
+                    <h4 className="text-amber-100 font-serif text-sm font-semibold">Exclusive Bridal & Designer Couture</h4>
+                    <p className="text-neutral-300 text-xs mt-0.5">A magnificent assortment of heavy bridal Lehengas, royal designer suits, and premium materials for your special events.</p>
                   </div>
                 </div>
 

@@ -34,7 +34,26 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [products, setProductsState] = useState<Product[]>(() => {
     const saved = localStorage.getItem('janta_products');
     if (saved) {
-      return JSON.parse(saved);
+      try {
+        const parsed: Product[] = JSON.parse(saved);
+        // Guarantee any Sherwanis are completely removed even from cached storage
+        const filtered = parsed.filter(p => !p.name.toLowerCase().includes('sherwani'));
+        
+        // Ensure new defaults (like ready-05 Shirting or ready-06 Naqab or category updates) are automatically merged
+        const defaults = [...SAREES, ...READYMADES].map(p => ({ ...p }));
+        defaults.forEach(defProduct => {
+          const index = filtered.findIndex(p => p.id === defProduct.id);
+          if (index === -1) {
+            filtered.push(defProduct);
+          } else {
+            // Update to newest image and category
+            filtered[index] = defProduct;
+          }
+        });
+        return filtered;
+      } catch (e) {
+        // Fallback if parsing fails
+      }
     }
     // Deep copy to prevent modifying original imports
     return [...SAREES, ...READYMADES].map(p => ({ ...p }));

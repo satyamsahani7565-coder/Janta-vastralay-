@@ -12,23 +12,17 @@ interface ProductCardProps {
 export default function ProductCard({ product, onQuickView }: ProductCardProps) {
   const { storeInfo: STORE_INFO } = useStore();
   
-  // Calculate discount percentage if original price is available
+  // Calculate discount percentage (Disabled - price removed)
   const getDiscount = () => {
-    if (!product.originalPrice) return null;
-    const numPrice = parseInt(product.price.replace(/[^\d]/g, ''));
-    const numOrig = parseInt(product.originalPrice.replace(/[^\d]/g, ''));
-    if (isNaN(numPrice) || isNaN(numOrig) || numOrig <= numPrice) return null;
-    const pct = Math.round(((numOrig - numPrice) / numOrig) * 100);
-    return `${pct}% OFF`;
+    return null;
   };
 
   const discountText = getDiscount();
 
-  // Pre-generate WhatsApp message URL
+  // Pre-generate WhatsApp message URL without price details
   const getWhatsAppLink = () => {
     const message = `Hello ${STORE_INFO.name}! I am genuinely interested in this beautiful clothing design:
 👗 Name: ${product.name}
-💰 Showroom Price: ${product.price} ${product.originalPrice ? `(Original: ${product.originalPrice})` : ''}
 🔗 Link: ${window.location.href}
 
 Kindly share more details regarding its availability. Is it in stock?`;
@@ -125,13 +119,11 @@ Kindly share more details regarding its availability. Is it in stock?`;
         {/* Pricing & Call to Actions */}
         <div className="pt-4 mt-4 border-t border-neutral-200/60 flex items-center justify-between">
           <div className="flex flex-col">
-            {product.originalPrice && (
-              <span className="text-xs text-neutral-400 line-through font-sans">
-                {product.originalPrice}
-              </span>
-            )}
-            <span className="text-lg sm:text-xl font-sans font-bold text-maroon">
-              {product.price}
+            <span className="text-[10px] uppercase font-serif tracking-wider text-gold-dark font-bold">
+              Showroom Exclusive
+            </span>
+            <span className="text-[11px] font-sans text-neutral-500 font-medium">
+              Premium Quality
             </span>
           </div>
 

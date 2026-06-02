@@ -2,7 +2,7 @@ export interface Product {
   id: string;
   name: string;
   hindiName: string;
-  category: 'saree' | 'readymade';
+  category: 'saree' | 'suit' | 'lehenga' | 'naqab' | 'shirting' | 'readymade';
   price: string;
   originalPrice?: string;
   description: string;

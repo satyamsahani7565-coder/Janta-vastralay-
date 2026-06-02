@@ -16,8 +16,9 @@ const IMAGE_PRESETS = [
   { name: "Royal Banarasi Saree", path: "/src/assets/images/banarasi_saree_1780314375516.png", category: "saree" },
   { name: "Kanjivaram Silk Saree", path: "/src/assets/images/kanjivaram_saree_1780314393807.png", category: "saree" },
   { name: "Designer Embroidered Saree", path: "/src/assets/images/designer_saree_1780314413562.png", category: "saree" },
-  { name: "Ivory Groom Sherwani", path: "/src/assets/images/designer_sherwani_1780314432510.png", category: "readymade" },
+  { name: "Designer Sharara Suit", path: "/src/assets/images/designer_sharara_suit_1780384969586.png", category: "readymade" },
   { name: "Bridal Lehenga Choli", path: "/src/assets/images/designer_lehenga_1780314451960.png", category: "readymade" },
+  { name: "Royal Pink Lehenga", path: "/src/assets/images/royal_pink_lehenga_1780385150442.png", category: "readymade" },
   { name: "Royal Blue Silk Kurta", path: "/src/assets/images/royal_kurta_1780314470548.png", category: "readymade" },
 ];
 
@@ -85,7 +86,7 @@ export default function AdminPanel({ onClose }: AdminPanelProps) {
   const handleProductSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!prodForm.name || !prodForm.price || !prodForm.image) {
-      alert('Please fill out Name, Price and Image URL/Preset.');
+      alert('Please fill out Name, Price and Image.');
       return;
     }
 
@@ -97,7 +98,7 @@ export default function AdminPanel({ onClose }: AdminPanelProps) {
       name: prodForm.name,
       hindiName: prodForm.hindiName || prodForm.name,
       category: prodForm.category,
-      price: prodForm.price,
+      price: prodForm.price || 'Ask for Price',
       originalPrice: prodForm.originalPrice || undefined,
       description: prodForm.description,
       image: prodForm.image,
@@ -425,15 +426,19 @@ export default function AdminPanel({ onClose }: AdminPanelProps) {
                     </div>
 
                     {/* Category */}
-                    <div className="md:col-span-4 space-y-1">
+                    <div className="md:col-span-6 space-y-1">
                       <label className="text-[11px] font-semibold text-neutral-400 uppercase">Showroom Category *</label>
                       <select 
                         value={prodForm.category}
-                        onChange={(e) => setProdForm({ ...prodForm, category: e.target.value as 'saree' | 'readymade' })}
+                        onChange={(e) => setProdForm({ ...prodForm, category: e.target.value as any })}
                         className="w-full bg-neutral-900 border border-neutral-700 rounded p-2 text-xs text-white outline-none focus:border-gold h-[34px]"
                       >
-                        <option value="saree">Saree Collection (साड़ी अनुभाग)</option>
-                        <option value="readymade">Wedding / Readymade Section (रेडिमेड)</option>
+                        <option value="saree">Saree Collection (साड़ी)</option>
+                        <option value="shirting">Shirting Fabric (शर्टिंग / सुटिंग)</option>
+                        <option value="suit">Designer Salwar Suit (सूट)</option>
+                        <option value="lehenga">Bridal Lehenga (लहंगा)</option>
+                        <option value="naqab">Royal Naqab (नकाब)</option>
+                        <option value="readymade">Other Readymade (रेडिमेड)</option>
                       </select>
                     </div>
 
@@ -445,19 +450,19 @@ export default function AdminPanel({ onClose }: AdminPanelProps) {
                         required
                         value={prodForm.price}
                         onChange={(e) => setProdForm({ ...prodForm, price: e.target.value })}
-                        placeholder="e.g., ₹14,999"
+                        placeholder="e.g., ₹2,499"
                         className="w-full bg-neutral-900 border border-neutral-700 rounded p-2 text-xs text-white outline-none focus:border-gold"
                       />
                     </div>
 
                     {/* Original Price */}
                     <div className="md:col-span-3 space-y-1">
-                      <label className="text-[11px] font-semibold text-neutral-400 uppercase">Strikeout Original Price</label>
+                      <label className="text-[11px] font-semibold text-neutral-400 uppercase">Original Price (Strikeout)</label>
                       <input 
                         type="text" 
                         value={prodForm.originalPrice}
                         onChange={(e) => setProdForm({ ...prodForm, originalPrice: e.target.value })}
-                        placeholder="e.g., ₹20,000"
+                        placeholder="e.g., ₹4,000"
                         className="w-full bg-neutral-900 border border-neutral-700 rounded p-2 text-xs text-white outline-none focus:border-gold"
                       />
                     </div>
@@ -586,7 +591,7 @@ export default function AdminPanel({ onClose }: AdminPanelProps) {
                           <th className="py-2.5 px-3">Visual</th>
                           <th className="py-2.5 px-3">Design Name</th>
                           <th className="py-2.5 px-3">Category</th>
-                          <th className="py-2.5 px-3">Showroom Price</th>
+                          <th className="py-2.5 px-3">Price</th>
                           <th className="py-2.5 px-3">Original Price</th>
                           <th className="py-2.5 px-3 text-right">Actions</th>
                         </tr>
@@ -602,10 +607,8 @@ export default function AdminPanel({ onClose }: AdminPanelProps) {
                               <p className="text-[10px] text-neutral-400 italic mt-0.5">{p.tag} • {p.hindiName}</p>
                             </td>
                             <td className="py-2 px-3">
-                              <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-semibold font-sans tracking-wide ${
-                                p.category === 'saree' ? 'bg-indigo-950 text-indigo-300 border border-indigo-800/40' : 'bg-rose-950 text-rose-300 border border-rose-800/40'
-                              }`}>
-                                {p.category === 'saree' ? 'Saree' : 'Readymade'}
+                              <span className="px-2 py-0.5 rounded text-[10px] uppercase font-semibold font-sans tracking-wide bg-indigo-950 text-indigo-300 border border-indigo-800/40">
+                                {p.category}
                               </span>
                             </td>
                             <td className="py-2 px-3 font-mono text-emerald-400 font-bold">{p.price}</td>
