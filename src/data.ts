@@ -1,5 +1,16 @@
 import { Product } from './types';
 
+// Static Image imports to assure Vite bundles them for production build
+import banarasiSaree from './assets/images/banarasi_saree_1780314375516.png';
+import kanjivaramSaree from './assets/images/kanjivaram_saree_1780314393807.png';
+import designerSaree from './assets/images/designer_saree_1780314413562.png';
+import designerShararaSuit from './assets/images/designer_sharara_suit_1780384969586.png';
+import designerLehenga from './assets/images/designer_lehenga_1780314451960.png';
+import royalPinkLehenga from './assets/images/royal_pink_lehenga_1780385150442.png';
+import shirtingSuitingBox from './assets/images/shirting_suiting_box_1780385678015.png';
+import royalBlackNiqab from './assets/images/royal_black_niqab_1780385693254.png';
+import royalKurta from './assets/images/royal_kurta_1780314470548.png';
+
 export const STORE_INFO = {
   name: "Janta Vastralay",
   englishName: "Janta Vastralay",
@@ -25,7 +36,7 @@ export const SAREES: Product[] = [
     price: "₹12,499",
     originalPrice: "₹18,500",
     description: "Exquisite pure Banarasi silk woven with rich gold zari threads, perfect for weddings, bridalwear, and festive family events.",
-    image: "/src/assets/images/banarasi_saree_1780314375516.png",
+    image: banarasiSaree,
     tag: "Best Seller",
     features: ["Pure Georgette/Katan Silk", "Detailed Gold Zari Border", "Handloom Weaving Craftsmanship"]
   },
@@ -37,7 +48,7 @@ export const SAREES: Product[] = [
     price: "₹15,999",
     originalPrice: "₹22,000",
     description: "Traditional south Indian masterpiece woven with pure raw silk and a heavy double-twist gold zari border for grand elegance.",
-    image: "/src/assets/images/kanjivaram_saree_1780314393807.png",
+    image: kanjivaramSaree,
     tag: "Premium Choice",
     features: ["Pure Mulberry Silk", "Traditional Temple Border", "Contrast Designer Pallu"]
   },
@@ -49,7 +60,7 @@ export const SAREES: Product[] = [
     price: "₹8,999",
     originalPrice: "₹12,500",
     description: "Modern fusion georgette saree featuring delicate hand-crafted silver zardozi border work and gorgeous floral patterns.",
-    image: "/src/assets/images/designer_saree_1780314413562.png",
+    image: designerSaree,
     tag: "New Arrival",
     features: ["Premium Georgette Fabric", "Handcrafted Zardozi Beads", "Custom Styled Blouse Piece"]
   }
@@ -64,7 +75,7 @@ export const READYMADES: Product[] = [
     price: "₹6,499",
     originalPrice: "₹9,500",
     description: "An exquisite designer ladies sharara suit featuring heavy premium georgette, intricate gold zari embroidery and sparkling sequins with a royal drape dupatta.",
-    image: "/src/assets/images/designer_sharara_suit_1780384969586.png",
+    image: designerShararaSuit,
     tag: "Festive Special",
     features: ["Heavy Georgette Fabric", "Intricate Hand Zari Wear", "Includes Flared Sharara Pants"]
   },
@@ -76,7 +87,7 @@ export const READYMADES: Product[] = [
     price: "₹29,999",
     originalPrice: "₹45,000",
     description: "Heavy premium velvet bridal lehenga set with intricate gold tilla and sparkling sequin embroidery representing timeless beauty.",
-    image: "/src/assets/images/designer_lehenga_1780314451960.png",
+    image: designerLehenga,
     tag: "Trending Couture",
     features: ["Heavy Micro Velvet Fabric", "Double Flare (Ghera)", "Designer Dupatta & Silk Blouse"]
   },
@@ -88,7 +99,7 @@ export const READYMADES: Product[] = [
     price: "₹34,999",
     originalPrice: "₹49,500",
     description: "An incredibly detailed raw silk masterpiece featuring majestic pink fabrics embellished with golden tilla embroidery, sequin floral motifs and a luxury sheer georgette dupatta.",
-    image: "/src/assets/images/royal_pink_lehenga_1780385150442.png",
+    image: royalPinkLehenga,
     tag: "Royal Masterpiece",
     features: ["Pure Premium Raw Silk", "Intricate Dual Tilla & Zardoshi Handwork", "Coordinated Blouse Piece & Dual Dupattas"]
   },
@@ -100,7 +111,7 @@ export const READYMADES: Product[] = [
     price: "₹1,899",
     originalPrice: "₹3,000",
     description: "An elegant combination of classic structured navy blue suiting and high-quality premium white textured shirting fabric by Raymond, perfect for personalized tailoring and celebratory gifts.",
-    image: "/src/assets/images/shirting_suiting_box_1780385678015.png",
+    image: shirtingSuitingBox,
     tag: "Gifting Special",
     features: ["Raymond Brand Premium Fabric", "Navy Blue Trouser + Ice White Shirt Set", "Luxurious Hardbound Embossed Gift Box"]
   },
@@ -112,7 +123,7 @@ export const READYMADES: Product[] = [
     price: "₹2,499",
     originalPrice: "₹4,000",
     description: "An elegant imported premium double-layer georgette Niqab/Naqab set from Dubai. Crafted in deep matte black, embellished with delicate gold and glass hand-beaded detailing.",
-    image: "/src/assets/images/royal_black_niqab_1780385693254.png",
+    image: royalBlackNiqab,
     tag: "Imported Selection",
     features: ["Premium Double-layer Dubai Georgette", "Soft Breathable Chiffon Base Overlay", "Hand-stitched Glass Bead Finishes"]
   },
@@ -124,7 +135,7 @@ export const READYMADES: Product[] = [
     price: "₹4,299",
     originalPrice: "₹6,500",
     description: "Sophisticated art silk Kurta pyjama set featuring premium styling and detailed neck embroidery for all celebrations.",
-    image: "/src/assets/images/royal_kurta_1780314470548.png",
+    image: royalKurta,
     tag: "Elegant Comfort",
     features: ["Premium Banarasi Silk Brocade", "Straight Cut Comfort Fit", "Includes Off-White Pyjama"]
   }

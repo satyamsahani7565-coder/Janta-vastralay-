@@ -1,5 +1,6 @@
 import React from 'react';
 import { useStore } from '../context/StoreContext';
+import logoImg from '../assets/images/janta_logo_new_revised_1780320602896.png';
 
 interface LogoProps {
   className?: string;
@@ -22,7 +23,7 @@ export default function Logo({ className = '', size = 'md' }: LogoProps) {
       className={`${dimensions[size]} ${className} relative select-none rounded-full overflow-hidden border border-gold/15 shadow-[0_4px_15px_rgba(0,0,0,0.4)]`}
     >
       <img
-        src="/src/assets/images/janta_logo_new_revised_1780320602896.png"
+        src={logoImg}
         alt={`${STORE_INFO.name} Logo`}
         className="w-full h-full object-cover"
         referrerPolicy="no-referrer"

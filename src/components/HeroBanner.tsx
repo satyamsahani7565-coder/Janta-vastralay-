@@ -1,6 +1,7 @@
 import React from 'react';
 import { Sparkles, ArrowRight, ArrowDown } from 'lucide-react';
 import { STORE_INFO } from '../data';
+import bannerImg from '../assets/images/showroom_banner_1780314355241.png';
 
 export default function HeroBanner() {
   const handleScrollToSection = (id: string) => {
@@ -16,7 +17,7 @@ export default function HeroBanner() {
       {/* Background Image Layer */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="/src/assets/images/showroom_banner_1780314355241.png" 
+          src={bannerImg} 
           alt="Premium Boutique Showroom" 
           className="w-full h-full object-cover opacity-35 scale-105 select-none pointer-events-none filter brightness-75 contrast-110"
           referrerPolicy="no-referrer"

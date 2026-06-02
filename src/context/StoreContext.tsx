@@ -64,7 +64,20 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
             filtered[index] = defProduct;
           }
         });
-        return filtered;
+
+        // Map legacy string paths to compiled bundle references
+        const mapped = filtered.map(p => {
+          if (p.image && typeof p.image === 'string' && p.image.startsWith('/src/assets/images/')) {
+            const filename = p.image.substring(p.image.lastIndexOf('/') + 1);
+            const foundDef = defaults.find(d => typeof d.image === 'string' && d.image.includes(filename));
+            if (foundDef) {
+              p.image = foundDef.image;
+            }
+          }
+          return p;
+        });
+
+        return mapped;
       } catch (e) {
         // Fallback if parsing fails
       }

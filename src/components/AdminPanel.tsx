@@ -7,19 +7,28 @@ import {
   AlertCircle, ChevronRight, RefreshCw, Layers, Sparkles
 } from 'lucide-react';
 
+// Static Image imports to assure Vite bundles them for production build inside AdminPanel
+import banarasiSaree from '../assets/images/banarasi_saree_1780314375516.png';
+import kanjivaramSaree from '../assets/images/kanjivaram_saree_1780314393807.png';
+import designerSaree from '../assets/images/designer_saree_1780314413562.png';
+import designerShararaSuit from '../assets/images/designer_sharara_suit_1780384969586.png';
+import designerLehenga from '../assets/images/designer_lehenga_1780314451960.png';
+import royalPinkLehenga from '../assets/images/royal_pink_lehenga_1780385150442.png';
+import royalKurta from '../assets/images/royal_kurta_1780314470548.png';
+
 interface AdminPanelProps {
   onClose: () => void;
 }
 
 // Preset gallery images for easier population
 const IMAGE_PRESETS = [
-  { name: "Royal Banarasi Saree", path: "/src/assets/images/banarasi_saree_1780314375516.png", category: "saree" },
-  { name: "Kanjivaram Silk Saree", path: "/src/assets/images/kanjivaram_saree_1780314393807.png", category: "saree" },
-  { name: "Designer Embroidered Saree", path: "/src/assets/images/designer_saree_1780314413562.png", category: "saree" },
-  { name: "Designer Sharara Suit", path: "/src/assets/images/designer_sharara_suit_1780384969586.png", category: "readymade" },
-  { name: "Bridal Lehenga Choli", path: "/src/assets/images/designer_lehenga_1780314451960.png", category: "readymade" },
-  { name: "Royal Pink Lehenga", path: "/src/assets/images/royal_pink_lehenga_1780385150442.png", category: "readymade" },
-  { name: "Royal Blue Silk Kurta", path: "/src/assets/images/royal_kurta_1780314470548.png", category: "readymade" },
+  { name: "Royal Banarasi Saree", path: banarasiSaree, category: "saree" },
+  { name: "Kanjivaram Silk Saree", path: kanjivaramSaree, category: "saree" },
+  { name: "Designer Embroidered Saree", path: designerSaree, category: "saree" },
+  { name: "Designer Sharara Suit", path: designerShararaSuit, category: "readymade" },
+  { name: "Bridal Lehenga Choli", path: designerLehenga, category: "readymade" },
+  { name: "Royal Pink Lehenga", path: royalPinkLehenga, category: "readymade" },
+  { name: "Royal Blue Silk Kurta", path: royalKurta, category: "readymade" },
 ];
 
 export default function AdminPanel({ onClose }: AdminPanelProps) {
@@ -39,7 +48,18 @@ export default function AdminPanel({ onClose }: AdminPanelProps) {
     const saved = localStorage.getItem('janta_image_presets');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed: { name: string; path: string; category: string }[] = JSON.parse(saved);
+        // Map legacy string paths to compiled bundle references
+        return parsed.map(p => {
+          if (p.path && typeof p.path === 'string' && p.path.startsWith('/src/assets/images/')) {
+            const filename = p.path.substring(p.path.lastIndexOf('/') + 1);
+            const foundDef = IMAGE_PRESETS.find(d => typeof d.path === 'string' && d.path.includes(filename));
+            if (foundDef) {
+              p.path = foundDef.path;
+            }
+          }
+          return p;
+        });
       } catch (e) {
         // Fallback to static initial list
       }
