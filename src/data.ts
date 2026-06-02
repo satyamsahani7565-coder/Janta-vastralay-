@@ -8,12 +8,12 @@ export const STORE_INFO = {
   tagline: "Tradition, Prestige, and Purity – The Complete Family Clothing Showroom",
   wholesaleNote: "नोट:- हमारे यहाँ शूटिंग-शर्टिंग, साड़ी, सूट, लहंगा, नकाब इत्यादि के थोक एवं फुटकर विक्रेता।",
   wholesaleNoteEnglish: "Wholesale & retail dealers of suiting-shirting, sarees, suits, lehengas, niqabs & elegant dresses.",
-  phone: "+91 63884 62571",
+  phone: "+91 78009 01353",
   address: "Vanbhagalpur, Campierganj, Gorakhpur, UP",
   addressHindi: "वनभागलपुर, कैम्पियरगंज, गोरखपुर",
   mapUrl: "https://maps.app.goo.gl/TLnGc3AEkJYHwWkd9",
   hours: "10:30 AM - 08:30 PM (Monday - Sunday)",
-  whatsappNumber: "916388462571"
+  whatsappNumber: "917800901353"
 };
 
 export const SAREES: Product[] = [

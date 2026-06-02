@@ -28,7 +28,21 @@ const StoreContext = createContext<StoreContextType | undefined>(undefined);
 export function StoreProvider({ children }: { children: React.ReactNode }) {
   const [storeInfo, setStoreInfoState] = useState<typeof DEFAULT_STORE_INFO>(() => {
     const saved = localStorage.getItem('janta_store_info');
-    return saved ? JSON.parse(saved) : DEFAULT_STORE_INFO;
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed.whatsappNumber === "916388462571") {
+          parsed.whatsappNumber = "917800901353";
+        }
+        if (parsed.phone === "+91 63884 62571") {
+          parsed.phone = "+91 78009 01353";
+        }
+        return parsed;
+      } catch (e) {
+        // Fallback
+      }
+    }
+    return DEFAULT_STORE_INFO;
   });
 
   const [products, setProductsState] = useState<Product[]>(() => {

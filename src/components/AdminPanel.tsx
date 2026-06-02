@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useStore, Testimonial } from '../context/StoreContext';
 import { Product } from '../types';
 import { 
@@ -33,6 +33,66 @@ export default function AdminPanel({ onClose }: AdminPanelProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authError, setAuthError] = useState('');
   const [activeTab, setActiveTab] = useState<'products' | 'store' | 'testimonials'>('products');
+  
+  // Dynamic Image presets state loaded from persistent local storage
+  const [presets, setPresets] = useState<{ name: string; path: string; category: string }[]>(() => {
+    const saved = localStorage.getItem('janta_image_presets');
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch (e) {
+        // Fallback to static initial list
+      }
+    }
+    return IMAGE_PRESETS;
+  });
+
+  const [newPresetCategory, setNewPresetCategory] = useState('saree');
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 2.5 * 1024 * 1024) {
+      alert('कृपया 2.5MB से कम आकार की फ़ाइल चुनें ताकि ब्राउज़र में लोड करने में कोई समस्या न हो। (Please select an image smaller than 2.5MB)');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const base64Path = event.target?.result as string;
+      if (!base64Path) return;
+
+      const autoName = file.name.replace(/\.[^/.]+$/, "");
+
+      const newPreset = {
+        name: autoName,
+        path: base64Path,
+        category: newPresetCategory
+      };
+
+      const updatedPresets = [...presets, newPreset];
+      setPresets(updatedPresets);
+      localStorage.setItem('janta_image_presets', JSON.stringify(updatedPresets));
+
+      // Auto-select the newly added image path for the product form
+      setProdForm(prev => ({ ...prev, image: base64Path }));
+      
+      triggerAlert('फ़ोटो सफलतापूर्वक अपलोड हो गई है और गैलरी में जोड़ दी गई है! (Photo uploaded and added to list)');
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleDeletePreset = (pathToDelete: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // Avoid selecting the image on click of delete button
+    if (window.confirm('क्या आप सचमुच इस तस्वीर को गैलरी से हटाना चाहते हैं?')) {
+      const updatedPresets = presets.filter(p => p.path !== pathToDelete);
+      setPresets(updatedPresets);
+      localStorage.setItem('janta_image_presets', JSON.stringify(updatedPresets));
+      triggerAlert('तस्वीर गैलरी से हटा दी गई है।');
+    }
+  };
   
   // App state alerts
   const [successMessage, setSuccessMessage] = useState('');
@@ -505,33 +565,107 @@ export default function AdminPanel({ onClose }: AdminPanelProps) {
 
                     {/* Image path selector & presets */}
                     <div className="md:col-span-12 space-y-2 mt-1">
-                      <label className="text-[11px] font-semibold text-neutral-400 uppercase block">Product Image *</label>
+                      <label className="text-[11px] font-semibold text-neutral-400 uppercase block">Product Image * (उत्पाद की तस्वीर)</label>
                       
                       {/* Presets Gallery picker */}
-                      <div className="space-y-1.5 bg-neutral-900 p-3 rounded border border-neutral-800">
-                        <span className="text-[10px] text-gold uppercase tracking-wider font-serif">Quick Selection: Premium Stock Images</span>
-                        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-                          {IMAGE_PRESETS.map((img, i) => (
-                            <button
+                      <div className="space-y-3.5 bg-neutral-900 p-4 rounded border border-neutral-800">
+                        <div className="flex justify-between items-center border-b border-neutral-800/80 pb-2">
+                          <span className="text-[11px] text-gold uppercase tracking-wider font-serif font-bold">Quick Selection Gallery (त्वरित गैलरी चयन)</span>
+                          <span className="text-[10px] text-neutral-400 font-sans font-medium">{presets.length} Images Available</span>
+                        </div>
+                        
+                        <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-6 gap-2">
+                          {presets.map((img, i) => (
+                            <div
                               key={i}
-                              type="button"
                               onClick={() => setProdForm({ ...prodForm, image: img.path })}
-                              className={`flex flex-col items-center p-1 rounded transition-all outline-none border text-center cursor-pointer ${
+                              className={`group relative flex flex-col items-center p-1.5 rounded transition-all outline-none border text-center cursor-pointer ${
                                 prodForm.image === img.path 
-                                  ? 'bg-gold/15 border-gold shadow' 
-                                  : 'border-neutral-800 hover:border-neutral-700 bg-neutral-950/40'
+                                  ? 'bg-gold/15 border-gold shadow-md shadow-gold/5 ring-1 ring-gold/25' 
+                                  : 'border-neutral-800 hover:border-neutral-700 bg-neutral-950/40 hover:bg-neutral-950/70'
                               }`}
                             >
-                              <img src={img.path} className="w-12 h-12 object-cover rounded mb-1" referrerPolicy="no-referrer" />
-                              <span className="text-[8px] text-neutral-400 truncate w-full">{img.name}</span>
-                            </button>
+                              <img 
+                                src={img.path} 
+                                className="w-full h-16 sm:h-12 object-cover rounded mb-1 bg-neutral-900 border border-neutral-800" 
+                                referrerPolicy="no-referrer" 
+                                alt={img.name}
+                              />
+                              <span className="text-[8px] text-neutral-300 truncate w-full block font-sans px-0.5" title={img.name}>
+                                {img.name}
+                              </span>
+                              
+                              {/* Delete preset option for any item */}
+                              <button
+                                type="button"
+                                title="गैलरी से हटाएँ (Delete photo)"
+                                onClick={(e) => handleDeletePreset(img.path, e)}
+                                className="absolute -top-1 -right-1 bg-red-600 hover:bg-red-700 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center w-4 h-4 shadow-lg z-20 cursor-pointer"
+                              >
+                                <X className="w-2.5 h-2.5 stroke-[2.5]" />
+                              </button>
+                            </div>
                           ))}
+                        </div>
+
+                        {/* Interactive Section: Add custom images to select dropdown/gallery */}
+                        <div className="mt-3.5 pt-3 border-t border-neutral-800/80 space-y-2.5 bg-neutral-950/40 p-3 rounded-lg">
+                          <div className="flex items-center gap-1.5">
+                            <Sparkles className="w-3.5 h-3.5 text-gold-light animate-pulse" />
+                            <span className="text-[11px] text-gold-light font-bold font-serif uppercase tracking-wide">
+                              Add Custom Photo from Device (फ़ोन या कंप्यूटर से फोटो जोड़ें)
+                            </span>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+                            {/* Hidden file input */}
+                            <input 
+                              type="file"
+                              accept="image/*"
+                              ref={fileInputRef}
+                              onChange={handleFileChange}
+                              className="hidden"
+                            />
+
+                            {/* Preset Category mapping */}
+                            <div className="sm:col-span-4 flex flex-col gap-1 w-full">
+                              <span className="text-[9px] text-neutral-400 font-semibold uppercase">Gallery Category (गैलरी श्रेणी)</span>
+                              <select
+                                value={newPresetCategory}
+                                onChange={(e) => setNewPresetCategory(e.target.value)}
+                                className="w-full bg-neutral-900 border border-neutral-700 rounded px-2.5 py-1.5 text-xs text-neutral-300 outline-none focus:border-gold h-[38px]"
+                              >
+                                <option value="saree">Saree (साड़ी)</option>
+                                <option value="shirting">Shirting (शर्टिंग)</option>
+                                <option value="suit">Suit (सूट)</option>
+                                <option value="lehenga">Lehenga (लहंगा)</option>
+                                <option value="naqab">Naqab (नकाब)</option>
+                                <option value="readymade">Other (अन्य रेडिमेड)</option>
+                              </select>
+                            </div>
+
+                            {/* Native Trigger Button */}
+                            <div className="sm:col-span-8 w-full">
+                              <button
+                                type="button"
+                                onClick={() => fileInputRef.current?.click()}
+                                className="w-full bg-gradient-to-r from-gold to-gold-dark hover:from-gold-dark hover:to-gold text-neutral-950 font-bold px-4 py-2.5 rounded-lg text-xs transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-md active:scale-95 text-center h-[38px]"
+                              >
+                                <Plus className="w-4 h-4 stroke-[2.5]" />
+                                <span>गैलरी / फ़ाइल मैनेजर से फ़ोटो चुनें (Choose Photo from Device)</span>
+                              </button>
+                            </div>
+                          </div>
+
+                          <p className="text-[9px] text-neutral-500 font-sans leading-relaxed">
+                            💡 <strong>संकेत:</strong> जैसे ही आप <span className="text-gold-light font-semibold">"फ़ोटो चुनें" वाले बटन</span> पर क्लिक करेंगे, आपके फ़ोन या कंप्यूटर का फ़ाइल मैनेजर खुल जाएगा। चुनी गई फ़ोटो ऊपर दी गई त्वरित गैलरी में स्थायी रूप से जुड़ जाएगी ताकि आप उत्पाद जोड़ते समय उसे बार-बार चुन सकें।
+                          </p>
                         </div>
                       </div>
 
-                      {/* Custom image URL input */}
+                      {/* Explicit Selected image URL show/edit */}
                       <div className="space-y-1">
-                        <span className="text-[10px] text-neutral-400">Or supply a custom image URL path:</span>
+                        <span className="text-[10px] text-neutral-400">Selected Photo Path / URL (चयनित फ़ोटो पाथ):</span>
                         <input 
                           type="text" 
                           required
@@ -723,7 +857,7 @@ export default function AdminPanel({ onClose }: AdminPanelProps) {
                           value={settingsForm.whatsappNumber}
                           onChange={(e) => setSettingsForm({ ...settingsForm, whatsappNumber: e.target.value })}
                           className="w-full bg-neutral-900 border border-neutral-700 focus:border-gold rounded p-2.5 text-xs text-white outline-none font-mono"
-                          placeholder="e.g. 916388462571"
+                          placeholder="e.g. 917800901353"
                         />
                       </div>
 
