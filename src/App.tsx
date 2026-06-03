@@ -9,6 +9,7 @@ import { Product } from './types';
 import { Star, Quote, MapPin, Phone, HelpCircle, Sparkles } from 'lucide-react';
 import { useStore } from './context/StoreContext';
 import AdminPanel from './components/AdminPanel';
+import OwnerProfileCard from './components/OwnerProfileCard';
 
 export default function App() {
   const { storeInfo, products, testimonials } = useStore();
@@ -140,6 +141,9 @@ export default function App() {
             </div>
           </div>
 
+
+          {/* Section: Premium Owner Profile Card */}
+          <OwnerProfileCard />
 
           {/* Section: Showroom Testimonials & Reviews */}
           <section id="testimonials-section" className="space-y-8 scroll-mt-24 pt-4">

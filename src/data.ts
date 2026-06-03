@@ -24,7 +24,8 @@ export const STORE_INFO = {
   addressHindi: "वनभागलपुर, कैम्पियरगंज, गोरखपुर",
   mapUrl: "https://maps.app.goo.gl/TLnGc3AEkJYHwWkd9",
   hours: "10:30 AM - 08:30 PM (Monday - Sunday)",
-  whatsappNumber: "917800901353"
+  whatsappNumber: "917800901353",
+  ownerPhoto: ""
 };
 
 export const SAREES: Product[] = [

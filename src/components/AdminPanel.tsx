@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useStore, Testimonial } from '../context/StoreContext';
 import { Product } from '../types';
 import { 
@@ -133,6 +133,10 @@ export default function AdminPanel({ onClose }: AdminPanelProps) {
 
   // Form states - Settings
   const [settingsForm, setSettingsForm] = useState({ ...storeInfo });
+
+  useEffect(() => {
+    setSettingsForm({ ...storeInfo });
+  }, [storeInfo]);
 
   // Form states - Testimonials
   const [editingTestimonialId, setEditingTestimonialId] = useState<string | null>(null);
@@ -963,6 +967,84 @@ export default function AdminPanel({ onClose }: AdminPanelProps) {
                           onChange={(e) => setSettingsForm({ ...settingsForm, wholesaleNoteEnglish: e.target.value })}
                           className="w-full bg-neutral-900 border border-neutral-700 focus:border-gold rounded p-2.5 text-xs text-white outline-none"
                         />
+                      </div>
+
+                      {/* Owner's Photo Photograph Management System */}
+                      <div className="space-y-4 sm:col-span-2 bg-neutral-950/50 border border-gold/20 p-5 rounded-xl">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-neutral-800">
+                          <div>
+                            <span className="text-xs font-serif font-black text-gold uppercase tracking-wider block">📷 Proprietor Photograph (प्रोपराइटर की फ़ोटो)</span>
+                            <span className="text-[10px] text-neutral-400 font-sans mt-0.5 block">
+                              Upload a custom photo of the owner to replace the default Monogram medallion. (Max 2.5MB)
+                            </span>
+                          </div>
+                          {settingsForm.ownerPhoto && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setSettingsForm({ ...settingsForm, ownerPhoto: "" });
+                                triggerAlert("प्रोपराइटर की पुरानी फोटो हटा दी गई है! सुरक्षित करने के लिए नीचे सेव करें।");
+                              }}
+                              className="text-[10px] px-2.5 py-1.5 rounded-lg border border-rose-900 bg-rose-950/20 text-rose-400 hover:bg-rose-950 hover:text-white transition-colors cursor-pointer"
+                            >
+                              ✕ Clear Current Photo
+                            </button>
+                          )}
+                        </div>
+
+                        <div className="flex items-center gap-5">
+                          {/* Photo preview block */}
+                          <div className="shrink-0 flex items-center justify-center">
+                            {settingsForm.ownerPhoto ? (
+                              <div className="w-16 h-16 rounded-xl overflow-hidden border border-gold p-0.5 bg-neutral-950 flex items-center justify-center">
+                                <img
+                                  src={settingsForm.ownerPhoto}
+                                  alt="Owner Preview"
+                                  className="w-full h-full object-cover rounded-lg"
+                                />
+                              </div>
+                            ) : (
+                              <div className="w-16 h-16 rounded-full border border-dashed border-neutral-700 flex flex-col items-center justify-center bg-neutral-950/70 text-neutral-500 font-serif text-[10px] font-black tracking-widest p-1">
+                                <span>MA</span>
+                                <span className="text-[6px] tracking-normal font-sans font-normal mt-0.5 text-neutral-600">SEAL</span>
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="flex-1 space-y-2">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (!file) return;
+
+                                if (file.size > 2.5 * 1024 * 1024) {
+                                  alert('कृपया 2.5MB से कम आकार की फ़ाइल चुनें ताकि ब्राउज़र में लोड करने में कोई समस्या न हो। (Please select an image smaller than 2.5MB)');
+                                  return;
+                                }
+
+                                const reader = new FileReader();
+                                reader.onload = (event) => {
+                                  const base64Path = event.target?.result as string;
+                                  if (!base64Path) return;
+                                  setSettingsForm({ ...settingsForm, ownerPhoto: base64Path });
+                                  triggerAlert('प्रोपराइटर की फ़ोटो का चयन हो गया है! सुरक्षित करने के लिए नीचे "Safeguard Store Info Settings" पर क्लिक करें।');
+                                };
+                                reader.readAsDataURL(file);
+                              }}
+                              className="block w-full text-xs text-neutral-400
+                                file:mr-4 file:py-1.5 file:px-3
+                                file:rounded-lg file:border file:border-gold/30
+                                file:text-xs file:font-semibold
+                                file:bg-gold/10 file:text-gold
+                                file:cursor-pointer hover:file:bg-gold/20 file:transition-colors"
+                            />
+                            <p className="text-[9px] text-neutral-500 italic font-sans leading-relaxed">
+                              Tip: Your uploaded picture will be safely resized, encrypted locally in your browser, and instantly rendered in the shop's top header badge and bottom profile card card. Remember to click "Safeguard Store Info Settings" below!
+                            </p>
+                          </div>
+                        </div>
                       </div>
 
                     </div>

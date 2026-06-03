@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, MapPin, Clock, Star, Heart, Instagram } from 'lucide-react';
+import { Phone, MapPin, Clock, Star, Heart, Instagram, Award } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
 import Logo from './Logo';
 
@@ -14,9 +14,9 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full bg-charcoal border-b border-gold/20 sticky top-0 z-40 shadow-md">
+    <header className="w-full bg-charcoal border-b border-gold/20 sticky top-0 z-40 shadow-md" id="app-header-container">
       {/* Top Banner Notice Line */}
-      <div className="w-full bg-gradient-to-r from-maroon-dark via-maroon to-maroon-dark text-white border-b border-gold/10">
+      <div className="w-full bg-gradient-to-r from-maroon-dark via-maroon to-maroon-dark text-white border-b border-gold/10" id="header-top-banner">
         <div className="max-w-7xl mx-auto px-4 py-1.5 flex flex-col md:flex-row justify-between items-center text-xs gap-1">
           <p className="flex items-center gap-1.5 font-sans font-light text-amber-100">
             <Clock className="w-3.5 h-3.5 text-gold" />
@@ -37,29 +37,72 @@ export default function Header() {
       </div>
 
       {/* Main Brand Logo Section */}
-      <div className="bg-charcoal bg-mandala-pattern w-full py-4 px-4">
+      <div className="bg-charcoal bg-mandala-pattern w-full py-4 px-4" id="header-main-brand-section">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-4">
           
-          {/* Brand Name Group */}
-          <div className="text-center lg:text-left flex flex-col items-center lg:items-start">
-            <div className="flex items-center gap-3">
-              <Logo size="sm" className="shrink-0" />
-              <div>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                  <h1 className="text-3xl sm:text-4xl font-display text-gold-light tracking-wide leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
-                    {STORE_INFO.name}
-                  </h1>
-                  <span className="inline-flex self-center items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-neutral-950 font-serif shadow-sm">
-                    {STORE_INFO.heritageTagline}
+          {/* Brand Name Group with Logo on Left and Owner on Right Corner */}
+          <div className="w-full lg:max-w-xl text-left flex flex-col items-start gap-1" id="header-brand-group">
+            <div className="flex items-center justify-between gap-4 w-full">
+              <div className="flex items-center gap-3">
+                <Logo size="sm" className="shrink-0" />
+                <div className="text-left">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-x-2 gap-y-0.5">
+                    <h1 className="text-2xl sm:text-3xl font-display text-gold-light tracking-wide leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]">
+                      {STORE_INFO.name}
+                    </h1>
+                    <span className="inline-flex self-start sm:self-center items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-gradient-to-r from-gold-dark via-gold to-gold-dark text-neutral-950 font-serif shadow-xs">
+                      {STORE_INFO.heritageTagline}
+                    </span>
+                  </div>
+                  <p className="text-[11px] sm:text-xs font-serif text-gold tracking-widest uppercase mt-0.5">
+                    {STORE_INFO.englishName} — @{STORE_INFO.username}
+                  </p>
+                </div>
+              </div>
+
+              {/* Shop Owner Portrait Circular Badge (Bagal wala corner/Opposite corner of title block) */}
+              <button 
+                onClick={() => handleScrollToSection('owner-profile-section')}
+                className="flex flex-row items-center gap-3 shrink-0 select-none group relative bg-neutral-950/40 border border-gold/15 hover:border-gold/50 py-1.5 px-2.5 rounded-xl cursor-pointer shadow-md transition-all duration-300 hover:bg-neutral-900/60 active:scale-95 text-left" 
+                id="header-owner-badge"
+              >
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-tr from-gold to-maroon rounded-full blur-[1px] opacity-65 group-hover:opacity-100 transition-opacity" />
+                  <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden border border-gold-light bg-neutral-950 flex items-center justify-center shadow-inner">
+                    {STORE_INFO.ownerPhoto ? (
+                      <img 
+                        src={STORE_INFO.ownerPhoto} 
+                        alt="Mahfooj Ansari - Shop Owner" 
+                        className="w-full h-full object-cover scale-105"
+                        referrerPolicy="no-referrer"
+                      />
+                    ) : (
+                      <span className="text-[11px] sm:text-xs font-serif font-black text-gold-light tracking-wider uppercase select-none">
+                        MA
+                      </span>
+                    )}
+                  </div>
+                  <span className="absolute -bottom-0.5 -right-0.5 bg-gold text-neutral-950 text-[6px] font-bold rounded-full w-3.5 h-3.5 flex items-center justify-center border border-neutral-950 shadow-xs">
+                    ★
                   </span>
                 </div>
-                <p className="text-[11px] sm:text-xs font-serif text-gold tracking-widest uppercase mt-0.5">
-                  {STORE_INFO.englishName} — @{STORE_INFO.username}
-                </p>
-              </div>
+                <div className="text-left">
+                  <span className="text-[9px] sm:text-[10px] font-serif font-bold text-gold-light leading-none block">Mahfooj Ansari</span>
+                  <span className="text-[7px] sm:text-[8px] text-neutral-400 leading-none mt-0.5 tracking-wider uppercase block font-serif">प्रोपराइटर (ओनर)</span>
+                </div>
+
+                {/* Elegant Hover/Tap Info Tooltip Overlay */}
+                <div className="absolute top-14 right-0 w-52 bg-neutral-900 border border-gold/30 rounded-lg p-3 shadow-2xl opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 pointer-events-none z-50 text-left space-y-1.5">
+                  <p className="text-[11px] font-bold text-gold-light font-serif">Mahfooj Ansari</p>
+                  <p className="text-[9px] text-gold uppercase tracking-wider font-serif">Shop Owner / प्रोपराइटर</p>
+                  <p className="text-[9px] text-neutral-300 leading-relaxed font-sans font-light">
+                    "जनता वस्त्रालय में आपका स्वागत है। हमारे शोरूम में आपके पूरे परिवार की खुशियों और मांगलिक उत्सवों के लिए राजशाही वस्त्र उचित दामों पर उपलब्ध हैं।"
+                  </p>
+                </div>
+              </button>
             </div>
             
-            <p className="text-xs sm:text-sm text-neutral-300 font-sans tracking-wide mt-1 italic text-center lg:text-left">
+            <p className="text-xs sm:text-sm text-neutral-300 font-sans tracking-wide mt-1 italic text-left">
               "{STORE_INFO.tagline}"
             </p>
           </div>
